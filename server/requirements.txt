@@ -1,0 +1,6 @@
+flask
+flask-script
+flask-wtf
+flask-bootstrap
+flask-sqlalchemy
+psycopg2

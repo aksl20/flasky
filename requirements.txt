@@ -1,0 +1,7 @@
+flask
+flask-script
+flask-wtf
+flask-bootstrap
+flask-sqlalchemy
+psycopg2
+flask-shell-ipython

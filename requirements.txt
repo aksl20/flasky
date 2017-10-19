@@ -5,3 +5,4 @@ flask-bootstrap
 flask-sqlalchemy
 psycopg2
 flask-shell-ipython
+flask-mail

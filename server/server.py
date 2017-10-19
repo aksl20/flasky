@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session, redirect, url_for, flash
-from flask_script import  Manager
+from flask_script import  Manager, Shell
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -71,7 +71,12 @@ def index():
 
 @app.route('/user/<name>')
 def user(name):
-   return render_template('user.html', name=name) 
+    return render_template('user.html', name=name) 
+
+# To import automatically class needed in flask shell for database
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 if __name__ == '__main__':
     manager.run()

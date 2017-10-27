@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session, redirect, url_for, flash
-from flask_script import  Manager
+from flask_script import  Manager, Shell
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -8,9 +8,12 @@ from wtforms.validators import Required
 
 
 app = Flask(__name__)
+#app.jinja_env.auto_reload = True
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = 'versailles_78'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] =\
- 'postgresql:///axel:axel@localhost:5432/flasky'
+ 'postgresql://axel:datalab195@db:5432/app'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
@@ -51,18 +54,29 @@ def internal_server_error(e):
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
-            flash('Looks like you have changed your name!')
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is  None:
+            user = User(username=form.name.data) 
+            db.session.add(user)
+            session['known'] = False
+        else:
+            session['known'] = True
         session['name'] = form.name.data
         form.name.data = ''
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'))
+    return render_template('index.html', 
+        form=form, name=session.get('name'),
+        known = session.get('known', False))
 
 
 @app.route('/user/<name>')
 def user(name):
-   return render_template('user.html', name=name) 
+    return render_template('user.html', name=name) 
+
+# To import automatically class needed in flask shell for database
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 if __name__ == '__main__':
     manager.run()

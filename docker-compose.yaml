@@ -1,0 +1,76 @@
+version: '2'
+services:
+  server:
+    build:
+      dockerfile: docker/Dockerfile.server
+      context: .
+      args:
+         http_proxy: http://10.8.3.69:8080
+         https_proxy: http://10.8.3.69:8080
+         no_proxy: localhost,127.0.0.1
+    depends_on:
+      - db_test
+      - db_dev
+      - db_prod
+    volumes:
+      - .:/project
+    ports: 
+      - "5001:5000"
+    environment:
+      http_proxy: http://10.8.3.69:8080
+      https_proxy: http://10.8.3.69:8080
+      no_proxy: localhost, 127.0.0.1
+
+  db_dev_data:
+    image: postgres:9.6
+    volumes:
+      - /var/lib/postgresql
+    command: "echo Data container for db_dev !" 
+  
+  db_test_data:
+    image: postgres:9.6
+    volumes:
+      - /var/lib/postgresql
+    command: "echo Data container for db_test !" 
+  
+  db_prod_data:
+    image: postgres:9.6
+    volumes:
+      - /var/lib/postgresql
+    command: "echo Data container for db_prod !" 
+
+
+
+  db_dev:
+    image: postgres:9.6
+    ports:
+      - "5433:5432"
+    volumes_from:
+     - db_dev_data
+    environment:
+      POSTGRES_USER: axel
+      POSTGRES_PASSWORD: datalab195
+      POSTGRES_DB: dev
+
+  db_test:
+    image: postgres:9.6
+    ports:
+      - "5434:5432"
+    volumes_from:
+     - db_test_data
+    environment:
+      POSTGRES_USER: axel
+      POSTGRES_PASSWORD: datalab195
+      POSTGRES_DB: test
+
+  db_prod:
+    image: postgres:9.6
+    ports:
+      - "5435:5432"
+    volumes_from:
+     - db_prod_data
+    environment:
+      POSTGRES_USER: axel
+      POSTGRES_PASSWORD: datalab195
+      POSTGRES_DB: prod
+

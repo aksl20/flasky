@@ -9,3 +9,5 @@ Flask-Mail
 python-dotenv
 Flask-Migrate
 Flask-Moment
+keras
+tensorflow

@@ -41,8 +41,20 @@ Follow the same structure as api directory :
 
 __Ask for complete pdf tutorial for more information__
 
-## How to code
+### How to code?
 
 After cloning the repo, update any files to add your implementation. You will need to rebuild your image to see update on the server:
 
     $ docker-compose up --build
+
+### How to test?
+
+You can install the package httpie:
+
+    $ pip install httpie
+
+This python package simulate REST request, by using it you can test your API:
+
+    $ http GET http://<ip_host_adress>:5001/api/prediction
+
+This API is not implemented but you can test your server by using it.

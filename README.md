@@ -26,4 +26,23 @@ Wait for building... You server is now running.
 
 ## Contribution
 
-You can contribute
+### Blueprint + FLask = application factory
+
+You can contribute to this server by make it robust (handle errors, create home page, documentations...) or creating new API based on model that you implemented.
+This server is based on blueprint package. if you friendly with application factory with flask you wont have any difficulties to contribute to this project. For those who don't know much about it :
+
+Follow the same structure as api directory :
+- Create a new folder in app
+- Add a __init__.py 
+- Add a route.py with all your url for your api
+- If your application need a web page, add a hmtl file in /app/template/yourapplication/file.hmtl and use render_template function in your route.py
+- Implement functions which will be used by your application in /app/yourappliation/model.py
+- Don't forget to register your application in the server by updating /app/__init__.py file
+
+__Ask for complete pdf tutorial for more information__
+
+## How to code
+
+After cloning the repo, update any files to add your implementation. You will need to rebuild your image to see update on the server:
+
+    $ docker-compose up --build

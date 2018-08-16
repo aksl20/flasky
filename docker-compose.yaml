@@ -12,8 +12,6 @@ services:
       - db_test
       - db_dev
       - db_prod
-    volumes:
-      - .:/project
     ports: 
       - "5001:5000"
     environment:

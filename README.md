@@ -15,7 +15,7 @@ You will need the following things properly installed on your computer. This ins
 
 ## Installation
 
-This installation works only in Sopra Steria network (proxy configuration). If you want to use it in a public network, you need to remove all proxies confiurations.
+If you want to use it in a public network, you need to remove all proxies confiurations.
 Run following commands :
 
     $ git clone https://innersource.soprasteria.com/DataLab195/flasky.git

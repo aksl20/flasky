@@ -5,21 +5,22 @@ services:
       dockerfile: docker/Dockerfile.server
       context: .
       args:
-         http_proxy: http://10.8.3.69:8080
-         https_proxy: http://10.8.3.69:8080
-         no_proxy: localhost,127.0.0.1
+         http_proxy: ${PROXY}
+         https_proxy: ${PROXY}
+         no_proxy: ${NO_PROXY}
     depends_on:
       - db_test
       - db_dev
       - db_prod
     ports: 
-      - "5001:5000"
+      - "${HOST_PORT}:${GUEST_PORT}"
+    env_file:
+      - .env
     environment:
-      http_proxy: http://10.8.3.69:8080
-      https_proxy: http://10.8.3.69:8080
-      no_proxy: localhost, 127.0.0.1
-      FLASK_APP: server.py
-      FLASK_ENV: development
+      http_proxy: ${PROXY}
+      http_proxy: ${PROXY}
+      https_proxy: ${PROXY}
+      no_proxy: ${NO_PROXY}
 
 
   db_dev_data:
@@ -45,33 +46,33 @@ services:
   db_dev:
     image: postgres:9.6
     ports:
-      - "5433:5432"
+        - ${DB_HOST_PORT_DEV}:5432
     volumes_from:
      - db_dev_data
     environment:
-      POSTGRES_USER: axel
-      POSTGRES_PASSWORD: datalab195
-      POSTGRES_DB: dev
+      POSTGRES_USER: ${DB_USER_DEV}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_DEV}
+      POSTGRES_DB: ${NAME_DEV}
 
   db_test:
     image: postgres:9.6
     ports:
-      - "5434:5432"
+      - ${DB_HOST_PORT_TEST}:5432
     volumes_from:
      - db_test_data
     environment:
-      POSTGRES_USER: axel
-      POSTGRES_PASSWORD: datalab195
-      POSTGRES_DB: test
+      POSTGRES_USER: ${DB_USER_TEST}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_TEST}
+      POSTGRES_DB: ${NAME_TEST}
 
   db_prod:
     image: postgres:9.6
     ports:
-      - "5435:5432"
+      - ${DB_HOST_PORT_PRD}:5432
     volumes_from:
      - db_prod_data
     environment:
-      POSTGRES_USER: axel
-      POSTGRES_PASSWORD: datalab195
-      POSTGRES_DB: prod
+      POSTGRES_USER: ${DB_USER_PRD}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_PRD}
+      POSTGRES_DB: ${NAME_PRD}
 

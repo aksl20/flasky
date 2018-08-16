@@ -11,4 +11,4 @@ source venv/bin/activate
 #done
 #flask translate compile
 #exec gunicorn -b :5000 --access-logfile - --error-logfile - microblog:app
-flask run -h 0.0.0.0 -p 5000
+flask run -h 0.0.0.0 -p $GUEST_PORT
